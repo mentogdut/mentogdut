@@ -1,0 +1,9 @@
+config mentogdut
+    option server '10.0.3.2'
+    option port '61440'
+    option pppoe_flag '6a'
+    option keep_alive2_flag 'dc'
+    option checksum '0'
+    option patch '1'
+    option enable '0'
+    option macaddr ''

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\mentogdut\src\latest_pppoe.c" />
+    <ClCompile Include="..\mentogdut\src\config.c" />
+    <ClCompile Include="..\mentogdut\src\mentogdut.c" />
+    <ClCompile Include="..\mentogdut\src\mbedtls\sha1.c">
+      <Filter>mbedtls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mentogdut\src\mbedtls\md5.c">
+      <Filter>mbedtls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mentogdut\src\mbedtls\md4.c">
+      <Filter>mbedtls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mentogdut\src\linux\ifstatus.c">
+      <Filter>linux</Filter>
+    </ClCompile>
+    <ClCompile Include="..\mentogdut\src\windows\lib.c">
+      <Filter>windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\mentogdut\src\mentogdut.h" />
+    <ClInclude Include="..\mentogdut\src\mbedtls\sha1.h">
+      <Filter>mbedtls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mentogdut\src\mbedtls\md5.h">
+      <Filter>mbedtls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mentogdut\src\mbedtls\md4.h">
+      <Filter>mbedtls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mentogdut\src\vsgetopt.h">
+      <Filter>windows\visualstudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mentogdut\src\windows\lib.h">
+      <Filter>windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="mbedtls">
+      <UniqueIdentifier>{dc3eb4ba-32cc-4ec3-bbaf-58c353f545fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="windows">
+      <UniqueIdentifier>{09649c55-7ebc-424d-960d-d06b73282d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="windows\visualstudio">
+      <UniqueIdentifier>{00ee7c4a-21c3-4d33-8e15-2f6e7166f346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="linux">
+      <UniqueIdentifier>{07e3e0f1-3676-4b80-bc70-ddd1f31befbd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

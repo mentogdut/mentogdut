@@ -1,0 +1,79 @@
+#!/bin/sh /etc/rc.common
+START=99
+NAME=mentogdut
+uci_get_by_type() {
+	local ret=$(uci get $NAME.@$NAME[0].$1 2>/dev/null)
+	echo ${ret:=$2}
+}
+ppp_recovery() {
+	sed -i '/#mentogdut/d' /lib/netifd/proto/ppp.sh
+}
+ppp_patch() {
+	ppp_recovery
+	sed -i '/proto_run_command/i username=$$(echo -e "\\r\\n$$username") #mentogdut' /lib/netifd/proto/ppp.sh
+#	sed -i '/proto_run_command/i username=`echo -e "\\r\\n$$username"` #mentogdut' /lib/netifd/proto/ppp.sh
+}
+start() {
+	if [ "$(uci_get_by_type enable 0)"x = "1"x ]; then
+		/etc/init.d/mentogdut enable
+	else
+		echo "$NAME cannot be started, because it is disabled"
+		ppp_recovery
+		/etc/init.d/mentogdut disable
+		return
+	fi
+	server=$(uci_get_by_type server)
+	port=$(uci_get_by_type port)
+	pppoe_flag=$(uci_get_by_type pppoe_flag)
+	keep_alive2_flag=$(uci_get_by_type keep_alive2_flag)
+	checksum=$(uci_get_by_type checksum)
+	macaddr=$(uci_get_by_type macaddr)
+	if [ -n "$macaddr" ]; then
+		uci set network.wan.macaddr="$macaddr"
+		uci commit
+	fi
+	if [ "$(uci_get_by_type enabledial 0)"x = "1"x ]; then
+#		echo "please manually configure pppoe"
+		uci set network.wan.ifname="$(uci_get_by_type ifname)"
+		uci set network.wan.username="$(uci_get_by_type username)"
+		uci set network.wan.password="$(uci_get_by_type password)"
+		uci set network.wan.proto="pppoe"
+		uci set network.wan._orig_ifname='eth0.2'
+		uci set network.wan._orig_bridge='false'
+		uci commit
+	fi
+	if [ "$(uci_get_by_type patch 1)"x = "1"x ]; then
+		ppp_patch
+	else
+		ppp_recovery
+	fi
+	if [ "$(uci_get_by_type refresh 0)"x = "1"x ]; then
+		/etc/init.d/network restart
+	fi
+	cmd="service_start /usr/bin/mentogdut -c /etc/mentogdut.conf "
+	if [ -n "$server" ]; then
+		cmd=$cmd"-s $server "
+	fi
+	if [ -n "$port" ]; then
+		cmd=$cmd"-p $port "
+	fi
+	if [ -n "$pppoe_flag" ]; then
+		cmd=$cmd"-f $pppoe_flag "
+	fi
+	if [ -n "$keep_alive2_flag" ]; then
+		cmd=$cmd"-k $keep_alive2_flag "
+	fi
+	cmd=$cmd"-m $checksum "
+	if [ "$(uci_get_by_type logger 0)"x = "1"x ]; then
+		cmd=$cmd"&>/tmp/mentogdut.log "
+	fi
+	cmd=$cmd"&"
+	echo $cmd
+	eval $cmd
+}
+stop()
+{
+	ppp_recovery
+	service_stop /usr/bin/mentogdut
+	return 0
+}
