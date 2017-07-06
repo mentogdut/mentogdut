@@ -11,6 +11,12 @@ the official drcom client has many limitations which may disturb us a lot, for e
 6. ...  
 In a word, mentogdut is a workaround of these.  
 
+# feedback
+有问题请加QQ群331339427( At this time, we only provide support in the Chinese language. )  
+
+# download
+Please visit our website http://gdutwifi.cf/  
+
 # reference
 [drcom-generic][1]  
 [pppoe_realworld][2]  
